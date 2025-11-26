@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+</head>
+<body>
+
+<h1>This is an automated system for checking IPO allotments.</h1>
+
+<form method="post" action="/automationReport">
+    <label>Email: </label><input type="email" placeholder="Please enter your email" name="email"><br>
+    <sub>This email address would be used to send you alert related to new ipo allotments.</sub><br><br>
+
+    <label>Depository Participants (DP): </label><input type="number" placeholder="12345" pattern="^\d{5}$" name="Depository Participants"><br>
+    <label>Username: </label><input type="number" placeholder="12345678" pattern="^\d{8}$" name="Username"><br>
+    <label>Password: </label><input type="password" name="password"><br>
+
+
+
+    <button type="submit">Check now</button>
+</form>
+
+</body>
+</html>
