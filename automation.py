@@ -9,13 +9,14 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-def runAutomation(email, dp, username, password):
+def runAutomation(dp, username, password):
     PATH = r"C:\Program Files (x86)\chromedriver.exe"
     service = Service(PATH)
 
     driver = webdriver.Chrome(service=service)
 
-    newIPOissue = ""
+    newIPOissueMessage = ""
+    totalNewIPOissue = 0
     totalIPOapplied = 0
 
     driver.get("https://meroshare.cdsc.com.np/")
@@ -35,11 +36,9 @@ def runAutomation(email, dp, username, password):
     dp_option.click()
 
     usernameField = driver.find_element(By.ID, "username")
-    # usernameField.send_keys("02349532")
     usernameField.send_keys(username)
 
     passwordField = driver.find_element(By.ID, "password")
-    # passwordField.send_keys("Deerw@lk25")
     passwordField.send_keys(password)
 
     login = driver.find_element(By.CLASS_NAME, "sign-in")
@@ -62,14 +61,24 @@ def runAutomation(email, dp, username, password):
     applyForIssue = driver.find_element(By.CSS_SELECTOR, "app-asba ul li:nth-child(1)")
     applyForIssue.click()
 
-    ipo_items = driver.find_elements(By.CSS_SELECTOR, "app-share-list .card")
+    ipo_items = wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, "company-list")))
 
-    if len(ipo_items) == 0:
-        print("No IPO listings available.")
-        newIPOissue = "No IPO listings available."
+    print("-------------------------")
+    print(ipo_items)
+
+    totalNewIPOissue = len(ipo_items)
+
+    print(len(ipo_items))
+
+    for item in ipo_items:
+        print(type(item.text))
+        print(len(item.text))
+        print(item.text)
+
+    if ipo_items:
+        newIPOissueMessage = "☺ "+str(totalNewIPOissue)+" New IPO "+"listings available" if totalNewIPOissue > 1 else "☺ "+str(totalNewIPOissue)+" New IPO "+"listing available"
     else:
-        print(f"Found {len(ipo_items)} IPO(s).")
-        newIPOissue = "Found {len(ipo_items)} IPO(s)."
+        newIPOissueMessage = "😞 No IPO listings available"
 
     sleep(3)
 
@@ -85,14 +94,9 @@ def runAutomation(email, dp, username, password):
     # Safely get applied shares
     totalIPOapplied = len(childDivs)
 
-    if len(childDivs) == 0:
-        print("No applied shares found.")
-    else:
-        print(f"Found {len(childDivs)} applied shares.")
-
     sleep(3)
     driver.close()
     driver.quit()
 
-    return newIPOissue, totalIPOapplied
+    return newIPOissueMessage, totalNewIPOissue, totalIPOapplied
 

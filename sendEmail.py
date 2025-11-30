@@ -11,12 +11,32 @@ def sendEmail(receiverEmail, ipoStatus):
     # -------- 2. Email Content --------
     receiver_email = receiverEmail
     subject = ipoStatus[0]+" - New IPO Alert"
-    body = """
+
+    message = "are "+str(ipoStatus[1])+" new IPOs" if ipoStatus[1] > 1 else "is a new IPO"
+
+    print(message)
+
+    body = f"""
     Hi there,
     
-    Unfortunately there are no IPO has been issued currently. But we will be constantly looking for them and if any new IPO is  listed you will be notified periodically so that you wont miss any IPOs.
+    Good News! there {message} issued to be applied. 
+    You can login to your meroshare account and apply for the listed IPO.
     
-    So, far you have applied """+str(ipoStatus[1])+""" IPOs.
+    Wishing you a very good luck!
+    
+    So, far you have applied """+str(ipoStatus[2])+""" IPOs.
+    
+    Regards,
+    Dhiraj Dhungana
+    Developer of this automated system.
+    
+    """ if ipoStatus[1] > 0 else """
+    Hi there,
+    
+    Unfortunately there are no IPO has been issued currently. 
+    But we will be constantly looking for them and if any new IPO is  listed you will be notified periodically so that you wont miss any IPOs.
+    
+    So, far you have applied """+str(ipoStatus[2])+""" IPOs.
     
     Regards,
     Dhiraj Dhungana

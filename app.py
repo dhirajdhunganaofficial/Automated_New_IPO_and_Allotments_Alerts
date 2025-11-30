@@ -15,7 +15,7 @@ def automationStarted():
     dp = request.form['Depository Participants']
     username = request.form['Username']
     password = request.form['password']
-    report = automation.runAutomation(email, dp, username, password)
+    report = automation.runAutomation(dp, username, password)
     sendEmail.sendEmail(email, report)
     print("Report: ", report)
     print(report)
