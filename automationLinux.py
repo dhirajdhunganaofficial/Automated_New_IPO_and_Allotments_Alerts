@@ -1,13 +1,13 @@
-def runAutomation(dp, username, password):
-    from selenium import webdriver
-    from selenium.webdriver.chrome.service import Service
-    from selenium.webdriver.chrome.options import Options
-    from selenium.common.exceptions import TimeoutException
-    from time import sleep
-    from selenium.webdriver.common.by import By
-    from selenium.webdriver.support.ui import WebDriverWait
-    from selenium.webdriver.support import expected_conditions as EC
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+from selenium.common.exceptions import TimeoutException
+from time import sleep
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
+def runAutomation(dp, username, password):
     # Chrome options for headless Linux
     chrome_options = Options()
     chrome_options.add_argument('--headless')
@@ -20,7 +20,7 @@ def runAutomation(dp, username, password):
     chrome_options.add_experimental_option('useAutomationExtension', False)
 
     # Remove Windows-specific PATH
-    service = Service('/usr/local/bin/chromedriver')
+    service = Service(executable_path='/usr/local/bin/chromedriver')
 
     driver = webdriver.Chrome(service=service, options=chrome_options)
 
