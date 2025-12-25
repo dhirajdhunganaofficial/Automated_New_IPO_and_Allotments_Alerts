@@ -1,20 +1,31 @@
-from contextlib import nullcontext
-
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.common.exceptions import TimeoutException
-from time import sleep
-
-from selenium.webdriver.common.by import By
-
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-
 def runAutomation(dp, username, password):
-    PATH = r"C:\Program Files (x86)\chromedriver.exe"
-    service = Service(PATH)
+    from selenium import webdriver
+    from selenium.webdriver.chrome.service import Service
+    from selenium.webdriver.chrome.options import Options
+    from selenium.common.exceptions import TimeoutException
+    from time import sleep
+    from selenium.webdriver.common.by import By
+    from selenium.webdriver.support.ui import WebDriverWait
+    from selenium.webdriver.support import expected_conditions as EC
 
-    driver = webdriver.Chrome(service=service)
+    # Chrome options for headless Linux
+    chrome_options = Options()
+    chrome_options.add_argument('--headless')
+    chrome_options.add_argument('--no-sandbox')
+    chrome_options.add_argument('--disable-dev-shm-usage')
+    chrome_options.add_argument('--disable-gpu')
+    chrome_options.add_argument('--window-size=1920,1080')
+    chrome_options.add_argument('--disable-blink-features=AutomationControlled')
+    chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
+    chrome_options.add_experimental_option('useAutomationExtension', False)
+
+    # Remove Windows-specific PATH
+    service = Service('/usr/local/bin/chromedriver')
+
+    driver = webdriver.Chrome(service=service, options=chrome_options)
+
+    # Add user agent and anti-detection
+    driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
 
     newIPOissueMessage = ""
     totalNewIPOissue = 0
