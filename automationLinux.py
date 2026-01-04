@@ -7,6 +7,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+from utils.secrets import get_secret
+USERNAME, PASSWORD = get_secret()
+
 def runAutomation(dp, username, password):
     # Chrome options for headless Linux
     chrome_options = Options()
@@ -48,10 +51,10 @@ def runAutomation(dp, username, password):
     dp_option.click()
 
     usernameField = driver.find_element(By.ID, "username")
-    usernameField.send_keys(username)
+    usernameField.send_keys(USERNAME)
 
     passwordField = driver.find_element(By.ID, "password")
-    passwordField.send_keys(password)
+    passwordField.send_keys(PASSWORD)
 
     login = driver.find_element(By.CLASS_NAME, "sign-in")
 
