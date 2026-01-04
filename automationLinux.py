@@ -7,9 +7,6 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-from utils.secrets import get_secret
-USERNAME, PASSWORD = get_secret()
-
 def runAutomation(dp, username, password):
     # Chrome options for headless Linux
     chrome_options = Options()
@@ -45,16 +42,21 @@ def runAutomation(dp, username, password):
 
     # Step 2: Wait for DP options to appear, then pick one by visible text
     # Replace 'NABIL INVESTMENT BANK LTD.' with your actual DP name
+
+    print("--------------------")
+    print(dp)
+    print("--------------------")
+
     dp_option = wait.until(
         EC.element_to_be_clickable((By.XPATH, "//li[contains(text(), 'NIMB ACE CAPITAL LIMITED (10600)')]"))
     )
     dp_option.click()
 
     usernameField = driver.find_element(By.ID, "username")
-    usernameField.send_keys(USERNAME)
+    usernameField.send_keys(username)
 
     passwordField = driver.find_element(By.ID, "password")
-    passwordField.send_keys(PASSWORD)
+    passwordField.send_keys(password)
 
     login = driver.find_element(By.CLASS_NAME, "sign-in")
 
