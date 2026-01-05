@@ -1,13 +1,84 @@
 {% include 'commonHeadPart.html' %}
+<style>
+    div{
+        max-width:100vw;
+        margin:auto;
+        background:#ffffff;
+        padding:20px;
+        border-radius:8px;
+        margin-bottom: 1rem;
+    }
+    table{
+        width: 100%;
+        cellpadding: 10;
+        cellspacing: 0;
+        border-collapse: collapse;
+        text-align: center;
+        font-size: var(--content-font-size);
+    }
+    tr{
+        background-color:#e5e7eb;
+    }
+    th, td{
+        border:1px solid #000;
+    }
+    a{
+        margin-top: 1rem;
+    }
+
+</style>
 
 <body>
 
 {% include 'header.html' %}
 
-<section>
-    <h1 class="heading">Automation report.</h1>
-    <p>{{report[0]}}</p><br>
-    <p>{{report[1]}}</p><br>
+<section style="text-align: center;">
+    <h1 class="heading">Automation <span>Report</span></h1>
+
+    <h3 class="subsubheading-font-size">Hi {{email}}</h3>
+
+    {% if report %}
+        <h3 class="subsubheading-font-size">Good News! there is a new IPO issued to be applied.</h3>
+    {% else %}
+        <h3 class="subsubheading-font-size">Unfortunately! there is not any new primary shares issued to be applied.</h3>
+    {% endif %}
+
+    <h2 class="subheading-font-size"><span>Primary Shares Listing Status</span></h2>
+
+    <div>
+
+        <table>
+            <tr>
+                <th rowspan="2">Company Name</th>
+                <th rowspan="2">Symbol</th>
+                <th colspan="2">Listed</th>
+                <th rowspan="2">Type</th>
+            </tr>
+            <tr>
+                <th>as:</th>
+                <th>for:</th>
+            </tr>
+            {% for data in report %}
+            <tr>
+                <td>{{ data[0] }}</td>
+                <td>{{ data[1] }}</td>
+                <td>{{ data[2] }}</td>
+                <td>{{ data[3] }}</td>
+                <td>{{ data[4] }}</td>
+            </tr>
+            {% endfor %}
+
+        </table>
+    </div>
+
+    <p style="margin-top:20px;">
+        You can login to your meroshare account and apply for the listed shares.<br>
+        https://meroshare.cdsc.com.np/#/login<br><br>
+        Wishing you a very good luck!<br><br>
+        Regards,<br>
+        <b>Dhiraj Dhungana</b><br>
+        Developer of this automated system.
+    </p>
     <a href="{{ url_for('index')}}" class="btn-1">Go Back</a>
 </section>
 

@@ -32,7 +32,7 @@ def runAutomation(dp, username, password):
     totalIPOapplied = 0
 
     driver.get("https://meroshare.cdsc.com.np/")
-    wait = WebDriverWait(driver, 20)
+    wait = WebDriverWait(driver, 40)
 
     # Step 1: Wait for and click the DP dropdown
     dp_dropdown = wait.until(
@@ -66,6 +66,8 @@ def runAutomation(dp, username, password):
         EC.element_to_be_clickable((By.CSS_SELECTOR, ".mdi-menu"))
     )
     menu.click()
+
+    driver.save_screenshot("/tmp/debug.png")
 
     myASBA = wait.until(
         EC.element_to_be_clickable((By.CSS_SELECTOR, ".msi-asba"))

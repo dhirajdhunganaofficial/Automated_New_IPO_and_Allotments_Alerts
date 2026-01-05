@@ -16,14 +16,13 @@ def index():
 @app.route('/automationReport', methods=['POST'])
 def automationStarted():
     email = request.form['email']
-    dp = request.form['Depository Participants']
-    username = request.form['Username']
-    password = request.form['password']
-    report = automationLinux.runAutomation(dp, USERNAME, PASSWORD)
-    sendEmail.sendEmail(email, report)
+    print(email)
+    report = automationLinux.runAutomation("02349532", "Deerw@lk25")
+    automationReport = sendEmail.sendEmail(email, report)
     print("Report: ", report)
-    print(report)
-    return render_template('automationReport.html', title='Automation Report', email=email, dp=dp, username=username, password=password, report=report)
+    print("Automation Report: ", automationReport)
+    # return render_template('automationReport.html', title='Automation Report', email=email, dp=dp, username=username, password=password, report=report)
+    return render_template('automationReport.html', title='Automation Report', email=email, report=automationReport)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
