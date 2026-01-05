@@ -17,7 +17,7 @@ def index():
 def automationStarted():
     email = request.form['email']
     print(email)
-    report = automationLinux.runAutomation("02349532", "Deerw@lk25")
+    report = automationLinux.runAutomation(USERNAME, PASSWORD)
     automationReport = sendEmail.sendEmail(email, report)
     print("Report: ", report)
     print("Automation Report: ", automationReport)
