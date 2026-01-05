@@ -10,15 +10,11 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-def runAutomation(dp, username, password):
+def runAutomation(username, password):
     PATH = r"C:\Program Files (x86)\chromedriver.exe"
     service = Service(PATH)
 
     driver = webdriver.Chrome(service=service)
-
-    newIPOissueMessage = ""
-    totalNewIPOissue = 0
-    totalIPOapplied = 0
 
     driver.get("https://meroshare.cdsc.com.np/")
     wait = WebDriverWait(driver, 20)
@@ -62,14 +58,6 @@ def runAutomation(dp, username, password):
     applyForIssue = driver.find_element(By.CSS_SELECTOR, "app-asba ul li:nth-child(1)")
     applyForIssue.click()
 
-    # before
-    # ipo_items = wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, "company-list")))
-
-    # after
-    # ipo_items = wait.until(
-    #     EC.presence_of_all_elements_located((By.CSS_SELECTOR, "table tbody tr"))
-    # )
-
     try:
         ipo_items = wait.until(
             EC.presence_of_all_elements_located((By.CLASS_NAME, "company-list"))
@@ -77,40 +65,33 @@ def runAutomation(dp, username, password):
     except TimeoutException:
         ipo_items = []
 
-    print("-------------------------")
-    print(ipo_items)
-
     totalNewIPOissue = len(ipo_items)
-
-    print(len(ipo_items))
-
-    for item in ipo_items:
-        print(type(item.text))
-        print(len(item.text))
-        print(item.text)
 
     if ipo_items:
         newIPOissueMessage = "☺ "+str(totalNewIPOissue)+" New IPO "+"listings available" if totalNewIPOissue > 1 else "☺ "+str(totalNewIPOissue)+" New IPO "+"listing available"
     else:
         newIPOissueMessage = "😞 No IPO listings available"
 
-    sleep(3)
+    currentIssue = driver.find_element(By.CSS_SELECTOR, "app-asba ul li:nth-child(2)")
+    currentIssue.click()
 
-    applicationReport = driver.find_element(By.CSS_SELECTOR, "app-asba ul li:nth-child(3)")
-    applicationReport.click()
+    try:
+        sharesToApply = wait.until(
+            EC.presence_of_all_elements_located((By.CLASS_NAME, "company-list"))
+        )
+    except TimeoutException:
+        sharesToApply = []
 
-    wait.until(EC.presence_of_element_located(
-        (By.XPATH, '//*[@id="main"]/div/app-asba/div/div[2]/app-share-list/div/div/div[2]/div[1]')))
-    parentDiv = driver.find_element(By.XPATH,
-                                    '//*[@id="main"]/div/app-asba/div/div[2]/app-share-list/div/div/div[2]/div[1]')
-    childDivs = parentDiv.find_elements(By.XPATH, "./div")
+    listingDetails = []
 
-    # Safely get applied shares
-    totalIPOapplied = len(childDivs)
+    for share in sharesToApply:
+        spanTexts = []
+        spans = share.find_elements(By.TAG_NAME, "span")
+        for i in range (len(spans)):
+            spanTexts.append(spans[i].text)
+        listingDetails.append(spanTexts)
 
-    sleep(3)
     driver.close()
     driver.quit()
 
-    return newIPOissueMessage, totalNewIPOissue, totalIPOapplied
-
+    return newIPOissueMessage, totalNewIPOissue, listingDetails

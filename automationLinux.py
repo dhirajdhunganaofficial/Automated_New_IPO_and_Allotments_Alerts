@@ -27,10 +27,6 @@ def runAutomation(username, password):
     # Add user agent and anti-detection
     driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
 
-    newIPOissueMessage = ""
-    totalNewIPOissue = 0
-    totalIPOapplied = 0
-
     driver.get("https://meroshare.cdsc.com.np/")
     wait = WebDriverWait(driver, 40)
 
@@ -117,7 +113,3 @@ def runAutomation(username, password):
     driver.quit()
 
     return newIPOissueMessage, totalNewIPOissue, listingDetails
-
-
-
-
