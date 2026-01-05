@@ -44,7 +44,7 @@ def runAutomation(username, password):
     # Replace 'NABIL INVESTMENT BANK LTD.' with your actual DP name
 
     print("--------------------")
-    print(dp)
+    print("ok")
     print("--------------------")
 
     dp_option = wait.until(
