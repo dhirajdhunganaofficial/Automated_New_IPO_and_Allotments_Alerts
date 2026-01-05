@@ -30,17 +30,4 @@
 
             $('section').css('padding-top', headerHeight + 'px');
         };
-
-        document.addEventListener('DOMContentLoaded', function() {
-            {% if alert %}
-                Swal.fire({
-                    title: 'Success',
-                    text: 'Your message is sent successfully to Dhiraj.He will contact you soon. Thank you so much!',
-                    icon: 'success',
-                    confirmButtonText: 'OK',
-                    alert = False
-                });
-            {% endif %}
-
-        });
     </script>
