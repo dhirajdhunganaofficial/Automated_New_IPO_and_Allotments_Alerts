@@ -225,7 +225,7 @@ def sendEmail(receiverEmail, ipoStatus):
     # -------- 3. Creating the Email Format --------
     message = MIMEMultipart()
     message["From"] = your_email
-    message["To"] = receiver_email
+    message["To"] = ",".join(receiver_email)
     message["Subject"] = subject
 
     message.attach(MIMEText(body, "html"))
