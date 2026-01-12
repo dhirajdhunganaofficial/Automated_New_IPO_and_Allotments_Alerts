@@ -79,7 +79,7 @@ def runAutomation(username, password):
             spanTexts.append(spans[i].text)
         listingDetails.append(spanTexts)
 
-    listingDetails = []
+    # listingDetails = []
     # listingDetails.append(test1)
     # listingDetails.append(test2)
     # listingDetails.append(test3)
