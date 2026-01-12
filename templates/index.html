@@ -5,17 +5,101 @@
 {% include 'header.html' %}
 
 <section class="subscribe-form" id="subscribe-form" style="text-align: center;">
-    <h1 class="heading">Welcome to <span>New IPO Alert</span> system.</h1>
+    <h1 class="heading">Primary Share Listing Alert</h1>
 
     <img class="thumbnail" src="../static/img/ipo_alert.gif" alt="New IPO Alert - Nepse">
 
-    <form method="post" action="/automationReport">
 
-        <div class="input-box">
-            <input type="email" placeholder="Please enter your email" name="email" required>
+    <form method="post">
+
+        <input id="email" type="text" class="sendEmail" pattern="^[a-zA-Z0-9_.%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+               placeholder="Please enter your email" name="email" required>
+        <button type="button" id="subscribe" class="btn-1">Add Subscribtion</button>
+
+
+        <div class="manage-subscription" id="manage-subscription">
+            <p>Please select notification frequency:</p>
+            <input type="radio" id="once" name="frequency" value="once" checked><label for="once">Once Everyday
+            (default)</label><br>
+            <input type="radio" id="twice" name="frequency" value="twice"><label for="twice">Once Every 12 hours</label><br>
+            <input type="radio" id="new" name="frequency" value="new"><label for="new">Only when new listing
+            available</label><br>
+            <input type="radio" id="onlyOnce" name="frequency" value="now"><label for="onlyOnce">Just Check Now (no
+            subscription)</label><br>
+            <button type="button" id="addSubscriber" onclick="subscribeUser()" class="btn-1">Subscribe</button>
         </div>
-        <input type="submit" value="Check now" class="btn-1">
+
     </form>
+
+
 </section>
+
+<script>
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    console.log("timezone1")
+    console.log(timezone)
+
+    const subscribeBtn = document.getElementById('subscribe');
+    const contentDiv = document.getElementById('manage-subscription');
+
+    subscribeBtn.addEventListener('click', function() {
+        contentDiv.classList.toggle('manage-subscription');
+
+        if(window.getComputedStyle(contentDiv).display === "block"){
+            subscribeBtn.textContent = "Manage Subscription"
+            subscribeBtn.className = "btn-2"
+        }else{
+            subscribeBtn.textContent = "Add Subscription"
+            subscribeBtn.className = "btn-1"
+        }
+
+    });
+
+    const frequencyRadios = document.querySelectorAll('input[name="frequency"]');
+    const subscribe = document.getElementById('addSubscriber');
+
+    frequencyRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            if (this.checked) {
+
+                if (this.value === 'now'){
+                    subscribe.textContent = "Check Now"
+                    subscribe.className = "btn-2"
+                    subscribe.formAction = "/automationReport"
+                    subscribe.removeAttribute("onclick")
+                    subscribe.type="submit"
+                } else {
+                    subscribe.textContent = "Subscribe"
+                    subscribe.className = "btn-1"
+                    subscribe.removeAttribute("formAction")
+                }
+                console.log(this.value)
+            }
+        });
+    });
+
+    function subscribeUser() {
+        const email = document.getElementById("email").value;
+        const frequency = document.querySelector('input[name="frequency"]:checked').value;
+
+        fetch("/subscribe", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, frequency, timezone })
+        })
+        .then(res => res.json())
+        .then((data) => {
+            console.log(data.status);
+            if(data.status == 'subscribed'){
+                alert("Subscribed successfully");
+            } else if(data.status == 'updated'){
+                alert("Updated subscription successfully");
+            }
+
+            return data
+        });
+    }
+
+</script>
 
 {% include 'footer.html' %}

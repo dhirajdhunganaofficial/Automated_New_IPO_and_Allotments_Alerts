@@ -1,8 +1,7 @@
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from os.path import split
-
+from collections import Counter
 
 def sendEmail(receiverEmail, ipoStatus):
     # -------- 1. Email Login Details --------
@@ -11,9 +10,7 @@ def sendEmail(receiverEmail, ipoStatus):
 
     # -------- 2. Email Content --------
     receiver_email = receiverEmail
-    subject = ipoStatus[0] + " - New IPO Alert"
-
-    message = "are " + str(ipoStatus[1]) + " new IPOs" if ipoStatus[1] > 1 else "is a new IPO"
+    message = "are " + str(ipoStatus[0]) + " new Primary Shares" if ipoStatus[0] > 1 else "is a new Primary Share"
 
     companyName = ""
     symbol = ""
@@ -27,9 +24,10 @@ def sendEmail(receiverEmail, ipoStatus):
     tdEnd = "</td>"
 
     automationReport = []
+    primaryShareType = []
 
-    if ipoStatus[2]:
-        for data in ipoStatus[2]:
+    if ipoStatus[1]:
+        for data in ipoStatus[1]:
             report = []
             tr = tr + trStart
             if len(data) == 5:
@@ -55,6 +53,7 @@ def sendEmail(receiverEmail, ipoStatus):
                         listedAs = text
                         tr = tr + tdStart + listedAs + tdEnd
                         report.append(listedAs)
+                        primaryShareType.append(listedAs)
                         tr = tr + tdStart + listedFor + tdEnd
                         report.append(listedFor)
 
@@ -86,6 +85,7 @@ def sendEmail(receiverEmail, ipoStatus):
                     elif i == 3:
                         listedAs = text.split(" ")[0]
                         report.append(listedAs)
+                        primaryShareType.append(listedAs)
                         tr = tr + tdStart + listedAs + tdEnd
 
                     elif i == 4:
@@ -101,7 +101,30 @@ def sendEmail(receiverEmail, ipoStatus):
                     i += 1
                 automationReport.append(report)
 
-    print("Automation Report: ", automationReport)
+    primaryShareCounts = Counter(primaryShareType)
+    keys = primaryShareCounts.keys()
+    totalKeys = len(keys)
+
+    title = "☺ "
+
+    if ipoStatus[0] > 0:
+        if totalKeys > 1:
+            title = "☺ New Shares ("
+            for i, key in enumerate(keys):
+                if i == totalKeys - 2:
+                    title = title + str(primaryShareCounts[key]) + " " + key + " and "
+                else:
+                    title = title + str(primaryShareCounts[key]) + " " + key + ", "
+
+            title = title[:-2] + ") are Listed"
+        else:
+            for key in keys:
+                title = title + str(primaryShareCounts[key]) + " new " + key + " shares are Listed" if primaryShareCounts[key] > 1 else title + str(primaryShareCounts[key]) + " new " + key + " share is Listed"
+    else:
+        title = "😞 No new listings available"
+
+    subject = title + " - New Primary Shares Listing Alert"
+
 
     body = f"""
     <html>
@@ -137,25 +160,26 @@ def sendEmail(receiverEmail, ipoStatus):
             <p style="margin-top:20px;"><strong>
                 You can login to your meroshare account and apply for the listed shares.<br>
                 https://meroshare.cdsc.com.np/#/login<br><br>
+                To manage your subscription, Please visit:<br>https://ipoalert.dhirajdhungana.com<br><br>
                 Wishing you a very good luck! 🤞<br><br>
                 <b>Regards,</b><br>
-                Dhiraj Dhungana<br>
+                <b>Dhiraj Dhungana</b><br>
                 Developer of this automated system.
             </strong></p>
         
         </div>
         
         </body>
-    </html>""" if ipoStatus[1] > 0 else """
+    </html>""" if ipoStatus[0] > 0 else """
     <html>
         <body style="font-family: Arial, sans-serif; background-color:#f5f5f5; padding:20px;">
 
         
         <div style="max-width:600px; margin:auto; background:#ffffff; padding:20px; border-radius:8px;">
                 
-            <p>Hi there,<br><br>
-            Unfortunately there are no IPO has been issued currently.<br>
-            But we will be constantly looking for them and if any new IPO or other primary shares are listed you will be notified immediately as per your subscription, so that you wont miss any opportunities.</p>
+            <p><b>Hi there,<br><br>
+            Unfortunately, no new Primary Shares has been issued recently.<br><br>
+            But we will be constantly looking for them and if any new Primary Shares are listed you will be notified immediately as per your subscription, so that you wont miss any opportunities.</b></p>
         
             <h2 style="color:#2563eb;">Primary Shares Listing Status</h2>
         
@@ -183,13 +207,14 @@ def sendEmail(receiverEmail, ipoStatus):
                 </tr>
             </table>
         
-            <p style="margin-top:20px;">
-                You can login to your meroshare account and apply for the listed shares.<br>
+            <p style="margin-top:20px;"><strong>
+                You can login to your meroshare account to view your portfolio and other information.<br>
                 https://meroshare.cdsc.com.np/#/login<br><br>
-                Wishing you a very good luck!<br><br>
-                Regards,<br>
+                To manage your subscription, Please visit:<br>https://ipoalert.dhirajdhungana.com<br><br>
+                Have a good one! 😎<br><br>
+                <b>Regards,</b><br>
                 <b>Dhiraj Dhungana</b><br>
-                Developer of this automated system.
+                Developer of this automated system.</strong>
             </p>
         
         </div>

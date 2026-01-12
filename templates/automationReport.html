@@ -58,15 +58,25 @@
                 <th>as:</th>
                 <th>for:</th>
             </tr>
-            {% for data in report %}
-            <tr>
-                <td>{{ data[0] }}</td>
-                <td>{{ data[1] }}</td>
-                <td>{{ data[2] }}</td>
-                <td>{{ data[3] }}</td>
-                <td>{{ data[4] }}</td>
-            </tr>
-            {% endfor %}
+            {% if report %}
+                {% for data in report %}
+                <tr>
+                    <td>{{ data[0] }}</td>
+                    <td>{{ data[1] }}</td>
+                    <td>{{ data[2] }}</td>
+                    <td>{{ data[3] }}</td>
+                    <td>{{ data[4] }}</td>
+                </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td>N/A</td>
+                    <td>N/A</td>
+                    <td>N/A</td>
+                    <td>N/A</td>
+                    <td>N/A</td>
+                </tr>
+            {% endif %}
 
         </table>
     </div>

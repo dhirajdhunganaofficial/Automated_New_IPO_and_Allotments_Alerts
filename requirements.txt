@@ -6,3 +6,7 @@ requests==2.31.0
 beautifulsoup4==4.12.2
 xvfbwrapper==0.2.9
 boto3
+Flask
+Flask-SQLAlchemy
+gunicorn
+python-dotenv

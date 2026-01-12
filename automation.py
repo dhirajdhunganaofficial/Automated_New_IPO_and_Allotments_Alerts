@@ -55,25 +55,13 @@ def runAutomation(username, password):
     # Wait until ASBA page loads
     wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "app-asba ul li")))
 
-    applyForIssue = driver.find_element(By.CSS_SELECTOR, "app-asba ul li:nth-child(1)")
-    applyForIssue.click()
-
-    try:
-        ipo_items = wait.until(
-            EC.presence_of_all_elements_located((By.CLASS_NAME, "company-list"))
-        )
-    except TimeoutException:
-        ipo_items = []
-
-    totalNewIPOissue = len(ipo_items)
-
-    if ipo_items:
-        newIPOissueMessage = "☺ "+str(totalNewIPOissue)+" New IPO "+"listings available" if totalNewIPOissue > 1 else "☺ "+str(totalNewIPOissue)+" New IPO "+"listing available"
-    else:
-        newIPOissueMessage = "😞 No IPO listings available"
-
     currentIssue = driver.find_element(By.CSS_SELECTOR, "app-asba ul li:nth-child(2)")
     currentIssue.click()
+
+    # test1 = ['Citizens Santulit Yojana.', '-', 'For General Public (CSTY)', 'IPO', 'Close Ended Mutual Fund']
+    # test3 = ['Citizens Santulit Yojana.', '-', 'For General Public (CSTY)', 'IPO', 'Close Ended Mutual Fund']
+    # test2 = ['VIJAYA LAGHUBITTA BITTIYA SANSTHA LIMITED', '-', 'For General Public (VLBS)', 'FPO', 'Ordinary Shares']
+    # test4 = ['VIJAYA LAGHUBITTA BITTIYA SANSTHA LIMITED', '-', 'For General Public (VLBS)', 'FPO', 'Ordinary Shares']
 
     try:
         sharesToApply = wait.until(
@@ -91,7 +79,14 @@ def runAutomation(username, password):
             spanTexts.append(spans[i].text)
         listingDetails.append(spanTexts)
 
+    listingDetails = []
+    # listingDetails.append(test1)
+    # listingDetails.append(test2)
+    # listingDetails.append(test3)
+    # listingDetails.append(test4)
+
+
     driver.close()
     driver.quit()
 
-    return newIPOissueMessage, totalNewIPOissue, listingDetails
+    return len(listingDetails), listingDetails

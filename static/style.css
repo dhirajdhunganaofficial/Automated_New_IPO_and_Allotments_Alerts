@@ -144,6 +144,27 @@ span{
     color: white;
 }
 
+.thumbnail{
+    height: 20rem;
+}
+
+.contents{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 1.5%
+}
+
+.check-share{
+    display: flex;
+    gap: 1%;
+}
+
+.sendEmail{
+    flex: 1;
+}
+
 .subscribe-form{
     padding-bottom: 5%;
 }
@@ -160,9 +181,7 @@ span{
     flex-wrap: wrap;
 }
 
-.subscribe-form form .input-box input,
-.contact-form form textarea{
-    width: 100%;
+form input{
     padding: 1.5em;
     font-size: var(--content-font-size);
     color: black;
@@ -172,12 +191,12 @@ span{
     resize: none;
 }
 
-.subscribe-form form input{
-    margin-top: 1rem;
+.manage-subscription{
+    display: none;
 }
 
-.thumbnail{
-    height: 15rem;
+.subscribe-form form input{
+    margin-top: 1rem;
 }
 
 .btn-1{
@@ -199,6 +218,26 @@ span{
     background-color: white;
     color: black;
     border: 0.2rem solid black;
+}
+
+.btn-2{
+    display: inline-block;
+    padding: 1.5rem 2.8rem;
+    background-color: var(--main-color);
+    color: white;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+    border: 0.2rem solid black;
+    border-radius: 0.8rem;
+    font-size: var(--botton-font-size);
+    letter-spacing: .1rem;
+    font-weight: 600;
+    transition: 0.3s ease;
+    cursor: pointer;
+}
+
+.btn-2:hover{
+    background-color: white;
+    color: var(--main-color);
 }
 
 .footer{
