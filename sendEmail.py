@@ -1,4 +1,3 @@
-import email
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -127,7 +126,6 @@ def sendEmail(receiverEmail, ipoStatus):
 
     subject = title + " - New Primary Shares Listing Alert"
 
-
     body = f"""
     <html>
         <body style="font-family: Arial, sans-serif; background-color:#f5f5f5; padding:20px;">
@@ -224,26 +222,25 @@ def sendEmail(receiverEmail, ipoStatus):
         </body>
     </html>"""
 
-    for recipient in receiver_email:
-        # -------- 3. Creating the Email Format --------
-        message = MIMEMultipart()
-        message["From"] = your_email
-        message["To"] = recipient
-        message["Subject"] = subject
+    # -------- 3. Creating the Email Format --------
+    message = MIMEMultipart()
+    message["From"] = your_email
+    message["To"] = receiver_email
+    message["Subject"] = subject
 
-        message.attach(MIMEText(body, "html"))
+    message.attach(MIMEText(body, "html"))
 
-        # -------- 4. Sending the Email --------
-        try:
-            server = smtplib.SMTP("smtp.gmail.com", 587)  # Gmail SMTP server
-            server.starttls()  # encrypts the connection
-            server.login(your_email, your_app_password)
-            server.sendmail(your_email, receiver_email, message.as_string())
-            server.quit()
+    # -------- 4. Sending the Email --------
+    try:
+        server = smtplib.SMTP("smtp.gmail.com", 587)  # Gmail SMTP server
+        server.starttls()  # encrypts the connection
+        server.login(your_email, your_app_password)
+        server.sendmail(your_email, receiver_email, message.as_string())
+        server.quit()
 
-            print("Email sent successfully!")
+        print("Email sent successfully!")
 
-        except Exception as e:
-            print("Something went wrong:", e)
+    except Exception as e:
+        print("Something went wrong:", e)
 
     return automationReport
