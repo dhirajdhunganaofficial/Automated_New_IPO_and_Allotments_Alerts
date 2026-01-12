@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, jsonify
-from config import Config
+# from config import Config
+from configLinux import Config
 from extensions import db
 
 from utils.secrets import get_secret
