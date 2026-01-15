@@ -23,7 +23,7 @@ def index():
 def automationStarted():
     email = []
     email.append(request.form['email'])
-    report = automation.runAutomation(USERNAME, PASSWORD)
+    report = automationLinux.runAutomation(USERNAME, PASSWORD)
     automationReport = sendEmail.sendEmail(email, report)
     return render_template('automationReport.html', title='Automation Report', email=email, report=automationReport)
 
