@@ -32,7 +32,7 @@ def runJob():
         print(subscribers)
 
         for subscriber in subscribers:
-            if subscriber.frequency == "twice":
+            if subscriber.frequency == "twice" and subscriber.still_subscribe == True:
                 print(subscriber.email)
                 emailList.append(subscriber.email)
 

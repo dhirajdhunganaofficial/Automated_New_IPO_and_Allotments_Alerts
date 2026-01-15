@@ -6,9 +6,9 @@
         background:#ffffff;
         padding:20px;
         border-radius:8px;
-        margin-bottom: 1rem;
     }
     table{
+        margin: 2rem 0;
         width: 100%;
         cellpadding: 10;
         cellspacing: 0;
@@ -22,8 +22,24 @@
     th, td{
         border:1px solid #000;
     }
+    td{
+        background-color: white;
+    }
     a{
         margin-top: 1rem;
+    }
+
+    .report{
+        font-size: var(--content-font-size);
+        margin-top: 2rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+    }
+
+    .report .go-back a{
+        display: block;
+        width: 100%;
+        margin: auto;
+        text-align: center;
     }
 
 </style>
@@ -32,20 +48,23 @@
 
 {% include 'header.html' %}
 
-<section style="text-align: center;">
-    <h1 class="heading">Automation <span>Report</span></h1>
+<section>
+    <div class="report">
+        <h1 class="heading">Automation <span>Report</span></h1>
 
-    <h3 class="subsubheading-font-size">Hi {{email}}</h3>
+        <p>Hi <b>{{email[0].split('@')[0]}},</b></p><br>
 
-    {% if report %}
-        <h3 class="subsubheading-font-size">Good News! there is a new IPO issued to be applied.</h3>
-    {% else %}
-        <h3 class="subsubheading-font-size">Unfortunately! there is not any new primary shares issued to be applied.</h3>
-    {% endif %}
+        {% if report %}
+        <p class="subsubheading-font-size">Good News! there {% if report | length > 1 %} are {{ report | length }} new
+            Primary Shares {% else %} is a new Primary Share {% endif %} issued to be
+            applied.</p><br>
+        {% else %}
+        <p class="subsubheading-font-size">Unfortunately! no new Primary Shares has been issued recently.<br><br>But we
+            will be constantly looking for them and if any new Primary Shares are listed you will be notified
+            immediately as per your subscription, so that you won't miss any opportunities.</p><br>
+        {% endif %}
 
-    <h2 class="subheading-font-size"><span>Primary Shares Listing Status</span></h2>
-
-    <div>
+        <h2 class="subheading"><span>Primary Shares Listing Status</span></h2>
 
         <table>
             <tr>
@@ -59,37 +78,51 @@
                 <th>for:</th>
             </tr>
             {% if report %}
-                {% for data in report %}
-                <tr>
-                    <td>{{ data[0] }}</td>
-                    <td>{{ data[1] }}</td>
-                    <td>{{ data[2] }}</td>
-                    <td>{{ data[3] }}</td>
-                    <td>{{ data[4] }}</td>
-                </tr>
-                {% endfor %}
+            {% for data in report %}
+            <tr>
+                <td>{{ data[0] }}</td>
+                <td>{{ data[1] }}</td>
+                <td>{{ data[2] }}</td>
+                <td>{{ data[3] }}</td>
+                <td>{{ data[4] }}</td>
+            </tr>
+            {% endfor %}
             {% else %}
-                <tr>
-                    <td>N/A</td>
-                    <td>N/A</td>
-                    <td>N/A</td>
-                    <td>N/A</td>
-                    <td>N/A</td>
-                </tr>
+            <tr>
+                <td>N/A</td>
+                <td>N/A</td>
+                <td>N/A</td>
+                <td>N/A</td>
+                <td>N/A</td>
+            </tr>
             {% endif %}
 
         </table>
+
+        {%if report%}
+        <p>
+            You can log in to your meroshare account and apply for the listed shares.<br>
+            <a href="https://meroshare.cdsc.com.np/#/login">https://meroshare.cdsc.com.np/#/login</a><br><br>
+            Wishing you a very good luck! 🤞<br><br>
+            <b>Regards,</b><br>
+            <b>Dhiraj Dhungana</b><br>
+            Developer of this automated system.
+        </p>
+        {% else %}
+        <p>
+            You can log in to your meroshare account to view your portfolio and other information.<br>
+            <a href="https://meroshare.cdsc.com.np/#/login">https://meroshare.cdsc.com.np/#/login</a><br><br>
+            Have a good one! 😎<br><br>
+            <b>Regards,</b><br>
+            <b>Dhiraj Dhungana</b><br>
+            Developer of this automated system.
+        </p>
+        {% endif %}
+        <div class="go-back">
+            <a href="{{ url_for('index')}}" class="btn-1">Go Back</a>
+        </div>
     </div>
 
-    <p style="margin-top:20px;">
-        You can login to your meroshare account and apply for the listed shares.<br>
-        https://meroshare.cdsc.com.np/#/login<br><br>
-        Wishing you a very good luck!<br><br>
-        Regards,<br>
-        <b>Dhiraj Dhungana</b><br>
-        Developer of this automated system.
-    </p>
-    <a href="{{ url_for('index')}}" class="btn-1">Go Back</a>
 </section>
 
 {% include 'footer.html' %}

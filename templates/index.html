@@ -4,30 +4,82 @@
 
 {% include 'header.html' %}
 
-<section class="subscribe-form" id="subscribe-form" style="text-align: center;">
-    <h1 class="heading">Primary Share Listing Alert</h1>
+<section class="subscribe-form" id="subscribe-form">
+    <h1 class="heading">Primary Share <span>Listing Alert</span></h1>
 
     <img class="thumbnail" src="../static/img/ipo_alert.gif" alt="New IPO Alert - Nepse">
 
 
     <form method="post">
 
-        <input id="email" type="text" class="sendEmail" pattern="^[a-zA-Z0-9_.%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
-               placeholder="Please enter your email" name="email" required>
-        <button type="button" id="subscribe" class="btn-1">Add Subscribtion</button>
+        <div class="wrapper">
 
+            <div class="contents">
+                <div class="email">
+                    <input id="email" type="text" class="sendEmail"
+                           pattern="^[a-zA-Z0-9_.%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+                           placeholder="Your email" name="email" required>
+                </div>
+                <div>
+                    <button type="button" id="subscribe" class="btn-1">Add Subscription</button>
+                </div>
+            </div>
 
-        <div class="manage-subscription" id="manage-subscription">
-            <p>Please select notification frequency:</p>
-            <input type="radio" id="once" name="frequency" value="once" checked><label for="once">Once Everyday
-            (default)</label><br>
-            <input type="radio" id="twice" name="frequency" value="twice"><label for="twice">Once Every 12 hours</label><br>
-            <input type="radio" id="new" name="frequency" value="new"><label for="new">Only when new listing
-            available</label><br>
-            <input type="radio" id="onlyOnce" name="frequency" value="now"><label for="onlyOnce">Just Check Now (no
-            subscription)</label><br>
-            <button type="button" id="addSubscriber" onclick="subscribeUser()" class="btn-1">Subscribe</button>
+            <div class="manage-subscription" id="manage-subscription">
+                <div class="settings-container">
+
+                    <div class="card-container">
+                        <div class="card">
+                            <h3 class="title">How often would you like updates?</h3>
+                            <p class="subTitle">Choose how frequently we should notify you. You can change this
+                                anytime.</p>
+
+                            <label class="option recommended">
+                                <input type="radio" id="once" name="frequency" value="once" checked>
+                                <div class="content">
+                                    <span class="title">Daily updates</span>
+                                    <span class="badge">Recommended</span>
+                                    <p class="subTitle">One helpful summary every morning</p>
+                                </div>
+                            </label>
+
+                            <label class="option">
+                                <input type="radio" id="twice" name="frequency" value="twice">
+                                <div class="content">
+                                    <span class="title">Twice a day</span>
+                                    <p class="subTitle">Morning & evening updates</p>
+                                </div>
+                            </label>
+
+                            <!--<label class="option">
+                                <input type="radio" id="new" name="frequency" value="new">
+                                <div class="content">
+                                    <span class="title">Only when something new appears</span>
+                                    <p class="subTitle">Instant alerts for new listings</p>
+                                </div>
+                            </label>-->
+
+                            <label class="option">
+                                <input type="radio" id="onlyOnce" name="frequency" value="now">
+                                <div class="content">
+                                    <span class="title">Just check now</span>
+                                    <p class="subTitle">One-time check, no notifications</p>
+                                </div>
+                            </label>
+
+                            <button type="button" id="addSubscriber" onclick="subscribeUser()"
+                                    class="btn-2 button-width">Start
+                                Free
+                                Notifications
+                            </button>
+
+                            <p class="subTitle privacy">🔒 No spam. <a href="">Unsubscribe</a> anytime.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+
 
     </form>
 
@@ -35,10 +87,6 @@
 </section>
 
 <script>
-    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    console.log("timezone1")
-    console.log(timezone)
-
     const subscribeBtn = document.getElementById('subscribe');
     const contentDiv = document.getElementById('manage-subscription');
 
@@ -64,13 +112,15 @@
 
                 if (this.value === 'now'){
                     subscribe.textContent = "Check Now"
-                    subscribe.className = "btn-2"
+                    subscribe.className = "btn-1"
                     subscribe.formAction = "/automationReport"
                     subscribe.removeAttribute("onclick")
                     subscribe.type="submit"
+                    subscribe.classList.add("button-width")
                 } else {
-                    subscribe.textContent = "Subscribe"
-                    subscribe.className = "btn-1"
+                    subscribe.textContent = "Start Free Notifications"
+                    subscribe.className = "btn-2"
+                    subscribe.classList.add("button-width")
                     subscribe.removeAttribute("formAction")
                 }
                 console.log(this.value)
