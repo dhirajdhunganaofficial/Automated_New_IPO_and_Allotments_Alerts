@@ -31,5 +31,12 @@
 
 <script type="text/javascript" src="{{ url_for('static', filename='script.js')}}"></script>
 
+<script>
+    // Prevent form resubmission when user refreshes page
+    if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
+    }
+</script>
+
 </body>
 </html>

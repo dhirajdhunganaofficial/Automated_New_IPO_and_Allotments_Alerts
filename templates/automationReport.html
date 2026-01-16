@@ -31,7 +31,6 @@
 
     .report{
         font-size: var(--content-font-size);
-        margin-top: 2rem;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
     }
 
@@ -49,9 +48,9 @@
 {% include 'header.html' %}
 
 <section>
-    <div class="report">
-        <h1 class="heading">Automation <span>Report</span></h1>
+    <h1 class="heading">Automation <span>Report</span></h1>
 
+    <div class="report">
         <p>Hi <b>{{email[0].split('@')[0]}},</b></p><br>
 
         {% if report %}
