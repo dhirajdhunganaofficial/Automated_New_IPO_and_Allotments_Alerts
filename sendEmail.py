@@ -6,7 +6,7 @@ from collections import Counter
 def sendEmail(receiverEmail, ipoStatus):
     # -------- 1. Email Login Details --------
     your_email = "dhirajdhunganaofficial@gmail.com"
-    your_app_password = "olhdfdeerxbikfzg"  # NOT your Gmail password!
+    your_app_password = "twbwpuawatnnzqyg"  # NOT your Gmail password!
 
     # -------- 2. Email Content --------
     receiver_email = receiverEmail
